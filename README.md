@@ -1,3 +1,3 @@
 # Project-D
 
-by Team Gigachat
+by Team GigaChat
