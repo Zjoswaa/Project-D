@@ -1,3 +1,4 @@
+<img src="image.png" alt="Eepy cat" width="100%" height="250"/>
 
 # Chadbot
 
@@ -12,6 +13,5 @@ By team Gigachat
 - [@Siudyy](https://github.com/Siudyy)
 - [@Telmo-Claro](https://github.com/Telmo-Claro)
 
-![alt text](image.png)
 
 
