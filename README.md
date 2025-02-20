@@ -2,7 +2,7 @@
 
 # Chadbot
 
-By team Gigachat
+By Team Gigachat
 
 ## Authors
 
@@ -14,4 +14,5 @@ By team Gigachat
 - [@Telmo-Claro](https://github.com/Telmo-Claro)
 
 
-
+## Project Board
+[GitHub Project Board](https://github.com/users/333suki/projects/4/views/1)
