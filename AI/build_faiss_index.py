@@ -26,7 +26,7 @@ index = faiss.IndexFlatL2(embedding_dim)
 index.add(embeddings)
 
 # 8. Save the FAISS index
-faiss.write_index(index, 'ndw_faiss_en.index')
+faiss.write_index(index, 'ndw_faiss.index')
 
 # 9. Save metadata
 metadata = [{"url": doc["url"], "title": doc["title"]} for doc in docs]
