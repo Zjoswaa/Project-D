@@ -5,8 +5,7 @@ from sentence_transformers import SentenceTransformer
 
 
 class NDWDocBot:
-    def __init__(self, model="deepseek-r1"):
-        self.model = model
+    def __init__(self):
         self.ollama_url = "http://localhost:11434/api/generate"
 
         # Load the prebuilt FAISS index and metadata
@@ -31,7 +30,7 @@ class NDWDocBot:
                 })
         return results
 
-    def get_response(user_input: str, context: str) -> str:
+    def get_response(self, user_input: str) -> str:
 
         prompt = f"""Je bent een deskundige expert op het gebied van het Nationaal Dataportaal Wegverkeer,
     gebaseerd op de officiële documentatie op docs.ndw.nu. Je kennis is uitsluitend afkomstig uit deze documentatie.
@@ -49,7 +48,7 @@ class NDWDocBot:
             response = requests.post(
                 ollama_url,
                 json={
-                    "model": "llama3.2",
+                    "model": "deepseek-r1",
                     "prompt": prompt,
                     "stream": False,
                     "temperature": 0.8
