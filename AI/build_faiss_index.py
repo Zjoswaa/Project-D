@@ -4,7 +4,7 @@ import faiss
 from sentence_transformers import SentenceTransformer
 
 # 1. Load scraped data from JSON
-with open('ndw_documentation_en.json', 'r', encoding='utf-8') as f:
+with open('ndw_documentation.json', 'r', encoding='utf-8') as f:
     docs = json.load(f)
 
 # 2. Initialize the SentenceTransformer model
