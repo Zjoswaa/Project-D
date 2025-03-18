@@ -9,8 +9,8 @@ class NDWDocBot:
         self.ollama_url = "http://localhost:11434/api/generate"
 
         # Load the prebuilt FAISS index and metadata
-        self.index = faiss.read_index("ndw_faiss.index")
-        with open("ndw_metadata.json", "r", encoding="utf-8") as f:
+        self.index = faiss.read_index("ndw_faiss_depth_9999.index")
+        with open("ndw_metadata_depth_9999.json", "r", encoding="utf-8") as f:
             self.metadata = json.load(f)
 
         # Load the embedding model (same one used to build the index)

@@ -4,7 +4,7 @@ import faiss
 from sentence_transformers import SentenceTransformer
 
 # 1. Load scraped data from JSON
-with open('ndw_documentation.json', 'r', encoding='utf-8') as f:
+with open('ndw_documentation_depth_2.json', 'r', encoding='utf-8') as f:
     docs = json.load(f)
 
 # 2. Initialize the SentenceTransformer model
@@ -26,11 +26,11 @@ index = faiss.IndexFlatL2(embedding_dim)
 index.add(embeddings)
 
 # 8. Save the FAISS index
-faiss.write_index(index, 'ndw_faiss.index')
+faiss.write_index(index, 'ndw_faiss_depth_2.index')
 
 # 9. Save metadata
 metadata = [{"url": doc["url"], "title": doc["title"]} for doc in docs]
-with open("ndw_metadata.json", "w", encoding="utf-8") as f:
+with open("ndw_metadata_depth_2.json", "w", encoding="utf-8") as f:
     json.dump(metadata, f, indent=2)
 
 print("FAISS database and metadata created successfully!")

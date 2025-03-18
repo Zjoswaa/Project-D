@@ -20,11 +20,11 @@ class NDWDocBot:
         # Load resources
         try:
             # Load FAISS index
-            self.index = faiss.read_index("ndw_faiss.index")
+            self.index = faiss.read_index("ndw_faiss_depth_9999.index")
             print("✓ FAISS index loaded")
 
             # Load metadata
-            with open("ndw_metadata.json", "r", encoding="utf-8") as f:
+            with open("ndw_metadata_depth_9999.json", "r", encoding="utf-8") as f:
                 self.metadata = json.load(f)
             print("✓ Metadata loaded")
 
