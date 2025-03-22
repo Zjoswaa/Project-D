@@ -8,23 +8,28 @@ import sys
 import threading
 import itertools
 
+index_file = "ndw_faiss_depth_10.index"
+metadata_file = "ndw_metadata_depth_10.json"
+model_name = "llama3.2:latest"
+
+version_string = "Chadbot Sigma v1"
 
 class NDWDocBot:
     def __init__(self):
         # Fixed model
-        self.model_name = "deepseek-r1:7b"
+        self.model_name = model_name
         self.ollama_url = "http://localhost:11434/api/generate"
 
-        print(f"Initializing NDW Documentation Assistant...")
+        print(f"Initializing NDW Documentation Assistant ({version_string})")
 
         # Load resources
         try:
             # Load FAISS index
-            self.index = faiss.read_index("ndw_faiss_depth_9999.index")
+            self.index = faiss.read_index(index_file)
             print("✓ FAISS index loaded")
 
             # Load metadata
-            with open("ndw_metadata_depth_9999.json", "r", encoding="utf-8") as f:
+            with open(metadata_file, "r", encoding="utf-8") as f:
                 self.metadata = json.load(f)
             print("✓ Metadata loaded")
 
@@ -93,17 +98,15 @@ class NDWDocBot:
     def get_response(self, user_input):
         """Process user query and generate response"""
         # Check if question is NDW-related
-        if not self.is_ndw_related(user_input):
-            return ("Ik kan alleen vragen beantwoorden over het Nationaal Dataportaal Wegverkeer (NDW). "
-                    "Uw vraag lijkt niet gerelateerd aan NDW. Kunt u een vraag stellen over NDW documentatie?")
+        # if not self.is_ndw_related(user_input):
+        #     return "I can only answer questions regarding the NDW. Your question does not seem to be related to the NDW."
 
         # Find relevant documents
         relevant_docs = self.search_docs(user_input)
 
         # If no relevant docs found
         if not relevant_docs:
-            return ("Ik kan geen relevante informatie vinden in de NDW documentatie. "
-                    "Kunt u uw vraag anders formuleren?")
+            return "I could not find any relevant information about this question in the NDW documentation."
 
         # Create context from relevant docs
         context = "\n".join([
@@ -112,20 +115,21 @@ class NDWDocBot:
         ])
 
         # Create strict NDW-only prompt
-        prompt = f"""Je bent een NDW-documentatie expert. 
+        prompt = f"""You are a NDW-documentatie expert. 
 
-STRENGE INSTRUCTIES:
-1. Beantwoord UITSLUITEND vragen over het Nationaal Dataportaal Wegverkeer (NDW)
-2. Als je niet zeker bent, zeg: "Op basis van de NDW documentatie kan ik deze vraag niet beantwoorden"
-3. Verzin GEEN informatie die niet in de documentatie staat
-4. Houd antwoorden kort en to-the-point
+STRICT INSTRUCTIONS:
+1. Only answer questions regarding the Nationaal Dataportaal Wegverkeer (NDW)
+2. If you are not certain that the question regards the NDW, answer the following: "I could not find any relevant information about this question in the NDW documentation."
+3. Dont make up information that is not mentioned in the documentation.
+4. Don't go too in depth when answering questions, keep answers superficial and related to the question.
+5. State the title of the document where you found the information.
 
-Relevante NDW documentatie:
+Relevant NDW documentation:
 {context}
 
-Vraag: {user_input}
+Question: {user_input}
 
-Antwoord (alleen gebaseerd op NDW documentatie):"""
+Answer (based only on NDW documentation):"""
 
         # Call LLM with timeout handling
         try:
@@ -153,7 +157,7 @@ Antwoord (alleen gebaseerd op NDW documentatie):"""
 
             # Process response
             if response.status_code == 200:
-                return response.json().get("response", "Geen antwoord ontvangen van het model.")
+                return response.json().get("response", "Did not get a response from the LLM.")
             else:
                 return f"Error: Ollama returned status code {response.status_code}"
 
@@ -161,21 +165,21 @@ Antwoord (alleen gebaseerd op NDW documentatie):"""
             # Stop loading animation
             stop_loading.set()
             loading_thread.join()
-            return "Het model kon niet tijdig een antwoord genereren. Probeer een kortere vraag."
+            return "The model could not generate an answer in a short enough time."
 
         except Exception as e:
             # Stop loading animation
             stop_loading.set()
             if loading_thread.is_alive():
                 loading_thread.join()
-            return f"Fout bij het genereren van een antwoord: {str(e)}"
+            return f"Error when generating response: {str(e)}"
 
     def _loading_animation(self, stop_event):
         """Display a loading animation in the console"""
         spinner = itertools.cycle(['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'])
         sys.stdout.write('\r')
         while not stop_event.is_set():
-            sys.stdout.write(f"\rBezig met zoeken naar informatie {next(spinner)} ")
+            sys.stdout.write(f"\rThinking {next(spinner)} ")
             sys.stdout.flush()
             time.sleep(0.1)
         # Clear the line when done
@@ -188,21 +192,21 @@ def main():
     # Initialize bot
     bot = NDWDocBot()
 
-    print("\nNDW Documentation Assistant")
+    print(f"\nNDW Documentation Assistant ({version_string})")
     print("=" * 50)
-    print("Stel een vraag over het Nationaal Dataportaal Wegverkeer (type 'exit' om te stoppen):")
+    print("Enter your question (type 'exit' to stop):")
 
     # Main interaction loop
     while True:
         # Get user input
-        user_input = input("\nVraag: ")
+        user_input = input("\nQuestion: ")
         if user_input.lower() in ['exit', 'quit', 'stop']:
             break
 
         # Get and display response
         print("")  # Empty line before processing
         response = bot.get_response(user_input)
-        print("\nAntwoord:")
+        print("\nResponse:")
         print(response)
 
 
