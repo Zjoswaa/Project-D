@@ -3,15 +3,19 @@ import numpy as np
 import faiss
 from sentence_transformers import SentenceTransformer
 
+source_file = "ndw_documentation_depth_2.json"
+output_file = "ndw_faiss_depth_2.index"
+metadata_file = "ndw_metadata_depth_2.json"
+
 # 1. Load scraped data from JSON
-with open('ndw_documentation_depth_2.json', 'r', encoding='utf-8') as f:
+with open(source_file, "r", encoding="utf-8") as f:
     docs = json.load(f)
 
 # 2. Initialize the SentenceTransformer model
-model = SentenceTransformer('all-MiniLM-L6-v2')
+model = SentenceTransformer("all-MiniLM-L6-v2")
 
 # 3. Prepare texts for embedding
-texts = [f"{doc['title']}: {doc['content']}" for doc in docs]
+texts = [f"{doc["title"]}: {doc["content"]}" for doc in docs]
 
 # 4. Generate embeddings
 embeddings = model.encode(texts, show_progress_bar=True, convert_to_numpy=True)
@@ -26,11 +30,11 @@ index = faiss.IndexFlatL2(embedding_dim)
 index.add(embeddings)
 
 # 8. Save the FAISS index
-faiss.write_index(index, 'ndw_faiss_depth_2.index')
+faiss.write_index(index, output_file)
 
 # 9. Save metadata
 metadata = [{"url": doc["url"], "title": doc["title"]} for doc in docs]
-with open("ndw_metadata_depth_2.json", "w", encoding="utf-8") as f:
+with open(metadata_file, "w", encoding="utf-8") as f:
     json.dump(metadata, f, indent=2)
 
-print("FAISS database and metadata created successfully!")
+print(f"FAISS database ({output_file}) and metadata ({metadata_file}) created successfully!")
