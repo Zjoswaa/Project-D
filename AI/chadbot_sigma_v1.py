@@ -122,7 +122,7 @@ STRICT INSTRUCTIONS:
 2. If you are not certain that the question regards the NDW, answer the following: "I could not find any relevant information about this question in the NDW documentation."
 3. Dont make up information that is not mentioned in the documentation.
 4. Don't go too in depth when answering questions, keep answers superficial and related to the question.
-5. State the title of the document where you found the information.
+5. State the title of the document where you found the information. Do this in the following format after the response: "Source: <title of the source>"
 
 Relevant NDW documentation:
 {context}
@@ -135,7 +135,7 @@ Answer (based only on NDW documentation):"""
         try:
             # Start loading animation in separate thread
             stop_loading = threading.Event()
-            loading_thread = threading.Thread(target=self._loading_animation, args=(stop_loading,))
+            loading_thread = threading.Thread(target=self.loading_animation, args=(stop_loading,))
             loading_thread.start()
 
             # Call the LLM
@@ -174,7 +174,7 @@ Answer (based only on NDW documentation):"""
                 loading_thread.join()
             return f"Error when generating response: {str(e)}"
 
-    def _loading_animation(self, stop_event):
+    def loading_animation(self, stop_event):
         """Display a loading animation in the console"""
         spinner = itertools.cycle(['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'])
         sys.stdout.write('\r')
@@ -204,10 +204,8 @@ def main():
             break
 
         # Get and display response
-        print("")  # Empty line before processing
         response = bot.get_response(user_input)
-        print("\nResponse:")
-        print(response)
+        print(f"\nResponse:\n{response}")
 
 
 if __name__ == "__main__":
