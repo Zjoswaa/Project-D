@@ -115,7 +115,7 @@ class NDWDocBot:
         ])
 
         # Create strict NDW-only prompt
-        prompt = f"""You are a NDW-documentatie expert. 
+        prompt = f"""You are a NDW-documentation expert. 
 
 STRICT INSTRUCTIONS:
 1. Only answer questions regarding the Nationaal Dataportaal Wegverkeer (NDW)
