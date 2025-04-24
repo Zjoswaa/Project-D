@@ -41,10 +41,6 @@ class NDWDocBot:
             print(f"Error during initialization: {str(e)}")
             sys.exit(1)
 
-        # NDW keywords for basic filtering
-        self.ndw_keywords = ["ndw", "nationaal dataportaal wegverkeer", "wegverkeer",
-                             "dataportaal", "verkeersdata"]
-
         # Test Ollama connection
         self._test_ollama_connection()
 
@@ -68,11 +64,6 @@ class NDWDocBot:
             print(f"⚠️ Could not connect to Ollama: {str(e)}")
             print(f"  Make sure Ollama is running and {self.model_name} is installed")
             print(f"  Run: ollama pull {self.model_name}")
-
-    def is_ndw_related(self, query):
-        """Check if query is related to NDW using keywords"""
-        query_lower = query.lower()
-        return any(keyword in query_lower for keyword in self.ndw_keywords)
 
     def search_docs(self, query):
         """Find relevant NDW documents"""
@@ -118,11 +109,10 @@ class NDWDocBot:
         prompt = f"""You are a NDW-documentation expert. 
 
 STRICT INSTRUCTIONS:
-1. Only answer questions regarding the Nationaal Dataportaal Wegverkeer (NDW)
-2. If you are not certain that the question regards the NDW, answer the following: "I could not find any relevant information about this question in the NDW documentation."
-3. Dont make up information that is not mentioned in the documentation.
-4. Don't go too in depth when answering questions, keep answers superficial and related to the question.
-5. State the title of the document where you found the information. Do this in the following format after the response: "Source: <title of the source>"
+1. Only answer questions regarding the Nationaal Dataportaal Wegverkeer (NDW).
+2. Dont make up information that is not mentioned in the documentation, respond "I could not find any information on that question in the NDW Documentation" otherwise.
+3. Don't go too in depth when answering questions, keep answers superficial and related to the question.
+4. State the title of the document where you found the information. Do this in the following format after the response: "Source: <title of the source>"
 
 Relevant NDW documentation:
 {context}
