@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    image: project-d
+    container_name: project-d-container
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/Project-D  # Maps local files to container (optional)
+    # environment:     # Uncomment if you need env vars
+    #   - FLASK_ENV=development
