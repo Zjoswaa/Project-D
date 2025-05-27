@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NDW Docs Chadbot</title>
+    {% load static %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        #chat-messages {
+            border: 1px solid #ccc;
+            padding: 10px;
+            height: 500px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+
+        .message {
+            margin: 10px 0;
+            padding: 5px;
+        }
+
+        .user-message {
+            background: #e3f2fd;
+        }
+
+        .bot-message {
+            background: #fff3e0;
+        }
+
+        #chat-form {
+            display: flex;
+            gap: 10px;
+        }
+
+        #user-input {
+            flex: 1;
+            padding: 5px;
+        }
+
+        button {
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>NDW Docs Chadbot</h1>
+    <button onclick="clearChat()">New Chat</button>
+    
+    <div id="chat-messages"></div>
+    
+    <form id="chat-form">
+        <input type="text" id="user-input" placeholder="Ask a question..." required>
+        <button type="submit">Send</button>
+    </form>
+
+    <script>
+        const chatForm = document.getElementById('chat-form');
+        const userInput = document.getElementById('user-input');
+        const chatMessages = document.getElementById('chat-messages');
+
+        function addMessage(message, isUser) {
+            const div = document.createElement('div');
+            div.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+            div.textContent = message;
+            chatMessages.appendChild(div);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function clearChat() {
+            if (confirm('Start new chat?')) {
+                fetch('/chat/clear/', { method: 'POST' })
+                    .then(() => chatMessages.innerHTML = '');
+            }
+        }
+
+        chatForm.onsubmit = async (e) => {
+            e.preventDefault();
+            const message = userInput.value.trim();
+            if (!message) return;
+
+            addMessage(message, true);
+            userInput.value = '';
+
+            try {
+                const response = await fetch('/chat/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message })
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    addMessage(data.response, false);
+                } else {
+                    addMessage('Error: ' + (data.error || 'Unknown error'), false);
+                }
+            } catch (error) {
+                addMessage('Error: Could not connect to server', false);
+            }
+        };
+    </script>
+</body>
+</html> 
