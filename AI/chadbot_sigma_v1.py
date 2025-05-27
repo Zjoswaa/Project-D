@@ -92,6 +92,12 @@ class NDWDocBot:
         # if not self.is_ndw_related(user_input):
         #     return "I can only answer questions regarding the NDW. Your question does not seem to be related to the NDW."
 
+        # I'm not sure if this actually works but at least the bot says hi now :)
+        greetings = ["hi", "hello", "hey", "greetings", "good morning", "good afternoon", "good evening"]
+        if user_input.strip().lower() in greetings:
+            return "Hello! 👋 How can I help you today?"
+        
+
         # Find relevant documents
         relevant_docs = self.search_docs(user_input)
 
@@ -113,6 +119,10 @@ STRICT INSTRUCTIONS:
 - Dont make up information that is not mentioned in the documentation, respond "I could not find any information on that question in the NDW Documentation" otherwise.
 - Don't go too in depth when answering questions, keep answers superficial and related to the question.
 - State the title of the document where you found the information. Do this in the following format after the response: "Source: <title of the source>"
+- If the user gives vague input (e.g., "I need help with data"), clarify the question instead of answering it directly.
+
+Greetings:
+- If the user greets you (e.g., "hi", "hello"), greet them back and ask: "How can I help you today with the NDW documentation?"
 
 Relevant NDW documentation:
 {context}
