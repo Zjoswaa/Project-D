@@ -10,8 +10,9 @@ import os
 class NDWDocBot:
     def __init__(self):
         # self.ollama_url = "http://localhost:11434/api/generate"
+        self.depth = 9999
         self.base_url = "https://docs.ndw.nu/"
-        self.data_file = 'ndw_documentation_depth_9999.json'
+        self.data_file = f'ndw_documentation_depth_{self.depth}.json'
         self.docs_data = []
 
         # Limit scraping to these main sections
@@ -26,7 +27,7 @@ class NDWDocBot:
     def scrape_page(self, url, visited, depth=0):
         """Scrape a single page and its immediate links"""
         # Skip if we've visited this page or reached max depth
-        if url in visited or depth > 9000:
+        if url in visited or depth > self.depth:
             return
 
         # Skip if not in allowed sections (unless it's the main page)
