@@ -10,7 +10,7 @@ import itertools
 
 index_file = "ndw_faiss_depth_10.index"
 metadata_file = "ndw_metadata_depth_10.json"
-model_name = "llama3.2:latest"
+model_name = "llama3.2"
 
 version_string = "Chadbot Sigma v1"
 

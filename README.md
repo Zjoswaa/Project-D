@@ -2,6 +2,14 @@
 
 # Chadbot
 
+# Docker Set-up
+## Quick Start
+
+```bash
+docker build -t project-d .
+docker run -p 8000:8000 project-d
+```
+
 By Team Gigachat
 
 ## Authors
@@ -16,3 +24,4 @@ By Team Gigachat
 
 ## Project Board
 [GitHub Project Board](https://github.com/users/333suki/projects/4/views/1)
+
