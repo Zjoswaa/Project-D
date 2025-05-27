@@ -10,16 +10,14 @@ import os
 class NDWDocBot:
     def __init__(self):
         # self.ollama_url = "http://localhost:11434/api/generate"
-        self.depth = 9999
+        self.depth = 10
         self.base_url = "https://docs.ndw.nu/"
         self.data_file = f'ndw_documentation_depth_{self.depth}.json'
         self.docs_data = []
 
         # Limit scraping to these main sections
         self.allowed_sections = [
-            'https://docs.ndw.nu/getting-started',
-            'https://docs.ndw.nu/about',
-            'https://docs.ndw.nu/dataformaten'
+            'https://docs.ndw.nu',
         ]
 
         self.scrape_documentation()

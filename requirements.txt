@@ -29,6 +29,8 @@ nvidia-nvjitlink-cu12==12.4.127
 nvidia-nvtx-cu12==12.4.127
 packaging==25.0
 pillow==11.2.1
+PyMuPDF==1.26.0
+PyPDF2==3.0.1
 PyYAML==6.0.2
 regex==2024.11.6
 requests==2.32.3

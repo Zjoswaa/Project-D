@@ -19,9 +19,7 @@ class NDWDocBot:
 
         # Limit scraping to these main sections
         self.allowed_sections = [
-            'https://docs.ndw.nu/getting-started',
-            'https://docs.ndw.nu/about',
-            'https://docs.ndw.nu/dataformaten'
+            'https://docs.ndw.nu',
         ]
 
         self.scrape_documentation()
@@ -29,7 +27,7 @@ class NDWDocBot:
     def scrape_page(self, url, visited, depth=0):
         """Scrape a single page and its immediate links, including PDF content."""
         # Skip if we've visited this page or reached max depth
-        if url in visited or depth > 10:
+        if url in visited or depth > self.depth:
             return
 
         # Skip if not in allowed sections (unless it's the main page)
