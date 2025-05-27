@@ -1,13 +1,18 @@
 <img src="image.png" alt="Eepy cat" width="100%" height="250"/>
 
-# Chadbot
+# Project D - ChadBot Sigma
 
-# Docker Set-up
-## Quick Start
-
+## 🚀 Quick Start
 ```bash
-docker build -t project-d .
-docker run -p 8000:8000 project-d
+git clone https://github.com/Zjoswaa/Project-D.git
+cd Project-D
+docker-compose up
+```
+
+## 🔧 Manual Setup
+```bash
+docker build -t chadbot .
+docker run -p 8000:8000 chadbot
 ```
 
 By Team Gigachat
