@@ -17,7 +17,7 @@ function LLMForm() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          question: question
+          Prompt: question
         })
       });
       
