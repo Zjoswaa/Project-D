@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import  LLMForm from './LLMForm'
+import LLMForm from './LLMForm'
 
 function App() {
   const [count, setCount] = useState(0)
