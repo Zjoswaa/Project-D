@@ -9,10 +9,13 @@ import threading
 import itertools
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 index_file = "ndw_faiss_depth_10.index"
 metadata_file = "ndw_metadata_depth_10.json"
 model_name = "llama3.2"
 =======
+=======
+>>>>>>> Stashed changes
 index_file = "AI/ndw_faiss_depth_10.index"
 metadata_file = "AI/ndw_metadata_depth_10.json"
 model_name = "llama3.2:latest"
