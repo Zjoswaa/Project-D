@@ -6,3 +6,7 @@
 node_modules/
 .vite/
 /AI/__pycache__
+*__pycache__/
+venv/bin/activate
+*.csh
+/venv
