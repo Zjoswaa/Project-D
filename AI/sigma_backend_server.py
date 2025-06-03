@@ -1,4 +1,3 @@
-import requests
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from chadbot_sigma_v1 import NDWDocBot
@@ -7,8 +6,15 @@ class Chatbot_Server(BaseHTTPRequestHandler):
 
     bot = NDWDocBot()
 
+    def do_OPTIONS(self):
+        self.send_response(200)
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "POST, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.end_headers()
+
     def do_POST(self):
-        content_length = int(self.headers['Content-Length'])
+        content_length = int(self.headers['Content-Length'], 0)
         post_data = self.rfile.read(content_length)
 
         try:
@@ -19,20 +25,20 @@ class Chatbot_Server(BaseHTTPRequestHandler):
 
             response = {
                 "status": "success",
-                "message": "Data received",
                 "response": query_response
             }
             self.send_response(200)
 
         except Exception as e:
-            print("Invalid JSON received.")
+            print("Error processing request:", e)
             response = {
                 "status": "error",
-                "message": "Invalid JSON"
+                "message": str(e)
             }
             self.send_response(400)
 
         self.send_header('Content-Type', 'application/json')
+        self.send_header("Access-Control-Allow-Origin", "*")
         self.end_headers()
         self.wfile.write(json.dumps(response).encode('utf-8'))
 
