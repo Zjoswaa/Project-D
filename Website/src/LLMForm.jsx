@@ -116,7 +116,7 @@ function LLMForm() {
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Type your question here... (Press Enter to send, Shift+Enter for new line)"
+            placeholder="Type your question here..."
             className="w-full p-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
             rows="4"
           />
@@ -125,13 +125,20 @@ function LLMForm() {
         <button
           onClick={handleSubmit}
           disabled={loading || !question.trim()}
-          className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 disabled:bg-gray-400 transition-colors"
-        >
+          className="bg-orange-500 text-white px-6 py-2 rounded-lg hover:bg-orange-700 disabled:bg-gray-400 transition-colors"        >
           {loading ? 'Thinking...' : 'Ask Question'}
+                {loading && (
+        <span className="text-center">
+          <div className="inline-flex items-center">
+            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500 mr-2"></div>
+          </div>
+        </span>
+      )}
         </button>
+        
       </div>
 
-      {/* Loading indicator */}
+      {/* Loading indicator
       {loading && (
         <div className="text-center">
           <div className="inline-flex items-center">
@@ -139,7 +146,7 @@ function LLMForm() {
             Processing your question...
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 }
