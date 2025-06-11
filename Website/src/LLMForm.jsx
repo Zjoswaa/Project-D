@@ -96,11 +96,11 @@ function LLMForm() {
                   <div className="text-sm text-gray-500 mb-1">
                     {chat.timestamp.toLocaleTimeString()}
                   </div>
-                  <div className="bg-orange-50 p-3 rounded-lg">
+                  <div className="bg-pink-50 p-3 rounded-lg">
                     <div className="text-right">{chat.question}</div>
                   </div>
                 </div>
-                <div className={`p-3 rounded-lg ${chat.isError ? 'bg-red-50' : 'bg-pink-50'}`}>
+                <div className={`p-3 rounded-lg ${chat.isError ? 'bg-red-50' : 'bg-orange-50'}`}>
                   <div className="mt-1 whitespace-pre-wrap">{chat.response}</div>
                 </div>
               </div>

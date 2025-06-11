@@ -107,7 +107,7 @@ class NDWDocBot:
 
         # Create context from relevant docs
         context = "\n".join([
-            f"Document: {doc['title']}"
+            f"Document: {doc['title']}, URL: {doc['url']}"
             for doc in relevant_docs
         ])
 
@@ -118,7 +118,7 @@ STRICT INSTRUCTIONS:
 - Only answer questions regarding the Nationaal Dataportaal Wegverkeer (NDW).
 - Dont make up information that is not mentioned in the documentation, respond "I could not find any information on that question in the NDW Documentation" otherwise.
 - Don't go too in depth when answering questions, keep answers superficial and related to the question.
-- State the title of the document where you found the information. Do this in the following format after the response: "Source: <title of the source>"
+- State the title and the url of the document where you found the information. Do this in the following format after the response: "Source: <title of the source>" "URL: <url of the source>"
 - If the user gives vague input (e.g., "I need help with data"), clarify the question instead of answering it directly.
 
 Greetings:
