@@ -3,9 +3,9 @@ import numpy as np
 import faiss
 from sentence_transformers import SentenceTransformer
 
-source_file = "ndw_documentation_depth_2.json"
-output_file = "ndw_faiss_depth_2.index"
-metadata_file = "ndw_metadata_depth_2.json"
+source_file = "ndw_documentation_pdf_depth_5.json"
+output_file = "ndw_faiss_pdf_depth_5.index"
+metadata_file = "ndw_metadata_pdf_depth_5.json"
 
 # 1. Load scraped data from JSON
 with open(source_file, "r", encoding="utf-8") as f:
