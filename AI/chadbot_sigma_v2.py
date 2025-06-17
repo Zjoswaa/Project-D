@@ -12,7 +12,7 @@ index_file = "AI/ndw_faiss_pdf_depth_10.index"
 metadata_file = "AI/ndw_metadata_pdf_depth_10.json"
 model_name = "llama3.2:latest"
 
-version_string = "Chadbot Sigma v1"
+version_string = "Chadbot Sigma v2"
 
 class NDWDocBot:
     def __init__(self):
