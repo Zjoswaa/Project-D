@@ -86,7 +86,7 @@ class NDWDocBot:
         # Filter for relevance
         return [r for r in results if r['distance'] < 1.5]
 
-    def get_response(self, user_input):
+    def get_response(self, user_input, chat_history):
         """Process user query and generate response"""    
 
         # Find relevant documents
@@ -104,7 +104,7 @@ You are an expert on the Nationaal Dataportaal Wegverkeer (NDW) documentation.
 
 Your job depends on the user input. Follow these rules:
 **Chat history**
-- Chat history will be provided as "History", if the user asks a question, you can check the history LastQuestion and LastResponse.
+- Chat history will be provided as "History", if the user asks a question, always prioritize answering the current question first. If the current question is a followup question, you can use the LastQuestion and LastResponse as context.
 
 ---
 
@@ -129,6 +129,9 @@ Your job depends on the user input. Follow these rules:
 
 NDW Documentation Context:  
 {context}
+
+History:
+{chat_history}
 
 User Input: {user_input}
 
