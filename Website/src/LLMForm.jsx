@@ -82,11 +82,14 @@ function LLMForm() {
               </div>
               <div>
                 <h1 className="text-3xl font-bold bg-gradient-to-r from-orange-600 to-orange-800 bg-clip-text text-transparent">
-                  Hello! I am GigaChat, NDW's personal AI assistant.
+                  Hello! I am ChadBot, NDW's personal AI assistant.
                 </h1>
-                <h2 className="text-lg font-medium text-gray-600 mt-1">
+                <h2 className="text-2xl font-medium bg-gradient-to-r from-orange-700 to-orange-500 bg-clip-text text-transparent">
                   How can I help you today?
                 </h2>
+                <h3 className="text-sm font-medium text-gray-500 mt-1">
+                  ChadBot is made and maintained by Team GigaChat
+                </h3>
               </div>
             </div>
             {chatHistory.length > 0 && (
