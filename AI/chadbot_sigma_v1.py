@@ -87,49 +87,49 @@ class NDWDocBot:
         return [r for r in results if r['distance'] < 1.5]
 
     def get_response(self, user_input):
-        """Process user query and generate response"""
-        # Check if question is NDW-related
-        # if not self.is_ndw_related(user_input):
-        #     return "I can only answer questions regarding the NDW. Your question does not seem to be related to the NDW."
-
-        # I'm not sure if this actually works but at least the bot says hi now :)
-        greetings = ["hi", "hello", "hey", "greetings", "good morning", "good afternoon", "good evening"]
-        if user_input.strip().lower() in greetings:
-            return "Hello! 👋 How can I help you today?"
-        
+        """Process user query and generate response"""    
 
         # Find relevant documents
         relevant_docs = self.search_docs(user_input)
-
-        # If no relevant docs found
-        if not relevant_docs:
-            return "I could not find any relevant information about this question in the NDW documentation."
 
         # Create context from relevant docs
         context = "\n".join([
             f"Document: {doc['title']}, URL: {doc['url']}"
             for doc in relevant_docs
-        ])
+        ]) or "I could not find any relevant information about this question in the NDW documentation."
 
         # Create strict NDW-only prompt
-        prompt = f"""You are a NDW-documentation expert. 
+        prompt = f"""
+You are an expert on the Nationaal Dataportaal Wegverkeer (NDW) documentation.
 
-STRICT INSTRUCTIONS:
-- Only answer questions regarding the Nationaal Dataportaal Wegverkeer (NDW).
-- Dont make up information that is not mentioned in the documentation, respond "I could not find any information on that question in the NDW Documentation" otherwise.
-- Don't go too in depth when answering questions, keep answers superficial and related to the question.
-- State the title and the url of the document where you found the information. Do this in the following format after the response: "Source: <title of the source>" "URL: <url of the source>"
-- If the user gives vague input (e.g., "I need help with data"), clarify the question instead of answering it directly.
+Your job depends on the user input. Follow these rules:
 
-Greetings:
-- If the user greets you (e.g., "hi", "hello"), greet them back and ask: "How can I help you today with the NDW documentation?"
+---
 
-Relevant NDW documentation:
+**If the user input is a greeting or small talk** (e.g., "Hi", "How are you?", "What's up?"):
+- Respond politely and briefly.
+- Then encourage the user to ask a question about the NDW documentation.
+
+**If the user input is a question about the NDW documentation**:
+- Answer it step by step using only the documentation in the context.
+- If the question is vague, ask for clarification first.
+- Do not make up information not found in the documentation.
+- Prefer URLs with the least depth (e.g., start with https://docs.ndw.nu/en/).
+- Do not use URLs with a # fragment.
+- If the answer is not found, say: "I could not find any information on that question in the NDW Documentation."
+- At the end of each answer, always include:
+  "Source: <title of the source>"  
+  "URL: <url of the source>"
+
+---
+
+NDW Documentation Context:  
 {context}
 
-Question: {user_input}
+User Input: {user_input}
 
-Answer (based only on NDW documentation):"""
+Response:"""
+
 
         # Call LLM with timeout handling
         try:
