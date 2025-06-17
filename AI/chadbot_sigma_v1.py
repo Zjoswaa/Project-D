@@ -103,6 +103,8 @@ class NDWDocBot:
 You are an expert on the Nationaal Dataportaal Wegverkeer (NDW) documentation.
 
 Your job depends on the user input. Follow these rules:
+**Chat history**
+- Chat history will be provided as "History", if the user asks a question, you can check the history LastQuestion and LastResponse and consider these in your response.
 
 ---
 
