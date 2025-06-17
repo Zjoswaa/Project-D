@@ -8,8 +8,8 @@ import sys
 import threading
 import itertools
 
-index_file = "AI/ndw_faiss_depth_10.index"
-metadata_file = "AI/ndw_metadata_depth_10.json"
+index_file = "AI/ndw_faiss_pdf_depth_10.index"
+metadata_file = "AI/ndw_metadata_pdf_depth_10.json"
 model_name = "llama3.2:latest"
 
 version_string = "Chadbot Sigma v1"
