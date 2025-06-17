@@ -1,6 +1,6 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from chadbot_sigma_v1 import NDWDocBot
+from chadbot_sigma_v2 import NDWDocBot
 
 class Chatbot_Server(BaseHTTPRequestHandler):
 
