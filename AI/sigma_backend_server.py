@@ -21,7 +21,7 @@ class Chatbot_Server(BaseHTTPRequestHandler):
             data = json.loads(post_data)
             print("Received JSON data:", data)
 
-            query_response = self.bot.get_response(f"Prompt: {data.get("Prompt", "")} LastQuestion: {data.get("LastQuestion", "")} LastResponse: {data.get("LastResponse", "")}")
+            query_response = self.bot.get_response(f"Prompt: {data.get('Prompt', '')} LastQuestion: {data.get('LastQuestion', '')} LastResponse: {data.get('LastResponse', '')}")
 
             response = {
                 "status": "success",
