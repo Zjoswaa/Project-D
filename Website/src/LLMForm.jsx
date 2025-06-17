@@ -20,7 +20,9 @@ function LLMForm() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          Prompt: currentQuestion
+          Prompt: currentQuestion,
+          LastQuestion: chatHistory.map(entry => ({question: entry.question}))[Math.max(0, chatHistory.length - 1)],
+          LastResponse: chatHistory.map(entry => ({question: entry.response}))[Math.max(0, chatHistory.length - 1)],
         })
       });
       
