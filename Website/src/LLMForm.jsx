@@ -83,7 +83,7 @@ function LLMForm() {
           ? 'bg-gray-800/90 border-orange-700' 
           : 'bg-white/90 border-orange-200'
       }`}>
-        <div className="max-w-4xl mx-auto px-6 py-6">
+        <div className="max-w-6xl mx-auto px-6 py-6">
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-4">
               <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg">
