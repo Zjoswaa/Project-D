@@ -27,7 +27,7 @@ function LLMForm() {
       
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
-      }
+      }``
       
       const data = await res.json();
       const response = data.response || 'No response received';
