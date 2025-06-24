@@ -2,7 +2,6 @@ import json
 import faiss
 import requests
 from sentence_transformers import SentenceTransformer
-import numpy as np
 import time
 import sys
 import threading
@@ -86,7 +85,7 @@ class NDWDocBot:
         # Filter for relevance
         return [r for r in results if r['distance'] < 1.5]
 
-    def get_response(self, user_input, chat_history):
+    def get_response(self, user_input):
         """Process user query and generate response"""    
 
         # Find relevant documents
@@ -101,8 +100,6 @@ class NDWDocBot:
         # Create strict NDW-only prompt
         prompt = f"""
 You are an expert on the Nationaal Dataportaal Wegverkeer (NDW) documentation.
-
----
 
 Your job depends on the user input. Follow these rules:
 
@@ -121,16 +118,11 @@ Your job depends on the user input. Follow these rules:
 - At the end of each answer, always include:
   "Source: <title of the source>"  
   "URL: <url of the source>"
-  
-**Chat history**
-- Chat history will be provided as "History", if the user asks a question, always prioritize answering the current question first. If the current question is a followup question, you can use the LastQuestion and LastResponse as context.
 
 ---
 
 NDW Documentation Context:  
 {context}
-History:
-{chat_history}
 
 User Input: {user_input}
 """
