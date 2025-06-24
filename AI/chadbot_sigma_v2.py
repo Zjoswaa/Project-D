@@ -10,6 +10,7 @@ import itertools
 index_file = "AI/ndw_faiss_pdf_depth_10.index"
 metadata_file = "AI/ndw_metadata_pdf_depth_10.json"
 model_name = "llama3.2:latest"
+embedding_model_name = "all-MiniLM-L6-v2"
 
 version_string = "Chadbot Sigma v2"
 
@@ -33,7 +34,7 @@ class NDWDocBot:
             print("✓ Metadata loaded")
 
             # Load embedding model
-            self.embedding_model = SentenceTransformer("all-MiniLM-L6-v2")
+            self.embedding_model = SentenceTransformer(embedding_model_name)
             print("✓ Embedding model loaded")
 
         except Exception as e:
@@ -70,10 +71,11 @@ class NDWDocBot:
         query_embedding = self.embedding_model.encode([query], convert_to_numpy=True)
 
         # Search for similar documents (only get top 2)
-        distances, indices = self.index.search(query_embedding, 2)
+        distances, indices = self.index.search(query_embedding, 10)
 
         # Format results
         results = []
+        print(results)
         for i in range(len(indices[0])):
             idx = indices[0][i]
             if idx < len(self.metadata):
@@ -83,6 +85,7 @@ class NDWDocBot:
                 })
 
         # Filter for relevance
+        print(results)
         return [r for r in results if r['distance'] < 1.5]
 
     def get_response(self, user_input):
@@ -98,8 +101,11 @@ class NDWDocBot:
         ]) or "I could not find any relevant information about this question in the NDW documentation."
 
         # Create strict NDW-only prompt
+        print(context)
         prompt = f"""
 You are an expert on the Nationaal Dataportaal Wegverkeer (NDW) documentation.
+
+---
 
 Your job depends on the user input. Follow these rules:
 
@@ -108,13 +114,13 @@ Your job depends on the user input. Follow these rules:
 - Then encourage the user to ask a question about the NDW documentation.
 
 **If the user input is a question about the NDW documentation**:
-- Answer it step by step using only the documentation in the context.
-- If the question is vague, ask for clarification first.
-- Do not make up information not found in the documentation.
+- Do not, under any condition, make up information that is not found in the documentation context.
+- If you make up information that is not found in the documentation context, a single mother of 3 will be brutally slaughtered. For her sake please dont make up information.
+- Answer the question step by step using only the documentation in the context.
+- If the question is vague, ask for clarification.
 - Prefer URLs with the least depth (e.g., start with https://docs.ndw.nu/en/).
 - Do not use URLs with a # fragment.
 - If the answer is not found, say: "I could not find any information on that question in the NDW Documentation."
-- Never include "LastQuestion" and "LastResponse" in the answer
 - At the end of each answer, always include:
   "Source: <title of the source>"  
   "URL: <url of the source>"

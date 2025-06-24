@@ -10,8 +10,8 @@ import fitz  # PyMuPDF
 class NDWDocBot:
     def __init__(self):
         self.depth = 10
-        self.base_url = "https://docs.ndw.nu/"
-        self.data_file = f'ndw_documentation_pdf_depth_{self.depth}.json'
+        self.base_url = "https://docs.ndw.nu/en/"
+        self.data_file = f'ndw_documentation_pdf_depth_{self.depth}.json.testing'
         self.docs_data = []
 
         self.stats = {
@@ -24,7 +24,7 @@ class NDWDocBot:
 
         # Limit scraping to these main sections
         self.allowed_sections = [
-            'https://docs.ndw.nu',
+            'https://docs.ndw.nu/en',
         ]
 
         self.scrape_documentation()
@@ -41,8 +41,7 @@ class NDWDocBot:
             response = requests.get(url, timeout=10)
             soup = BeautifulSoup(response.text, 'html.parser')
 
-            # Get main content
-            content = soup.find('main')
+            content = soup.select_one('body > div.md-container > main.md-main > div.md-main__inner.md-grid > div.md-content > article.md-content__inner.md-typeset > div')
             if content:
                 self.docs_data.append({
                     'url': url,
@@ -73,6 +72,9 @@ class NDWDocBot:
                 for link in soup.find_all('a', href=True):
                     self.stats['html_pages'] += 1
                     next_url = urljoin(url, link['href'])
+                    parsed_href = urlparse(next_url)
+                    if parsed_href.fragment or parsed_href.path.endswith("#"):
+                        continue
                     self.scrape_page(next_url, visited, depth + 1)
 
         except Exception as e:
